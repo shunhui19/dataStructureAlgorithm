@@ -18,6 +18,10 @@ func main() {
 	arr = []int{30, 3, 12, 9, 29, 100, 66, 22, 15}
 	fmt.Printf("插入排序: %v\n", algorithm.InsertSort(arr))
 
+	// 选择排序
+	arr = []int{3, 13, 12, 9, 29, 10, 16, 22, 15}
+	fmt.Printf("选择排序: %v\n", algorithm.SelectSort(arr))
+
 	// 快速排序
 	arr = []int{8, 13, 6, 5, 4, 2, 11, 9, 7}
 	fmt.Println(arr)

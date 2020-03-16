@@ -14,12 +14,19 @@ import (
 // 时间复杂度为：O(n*n)
 func BubbleSort(data []int) []int {
 	length := len(data)
+	// 是否有数据交换标志，当没有数据交换时，表示已经完成排好序了，不需要继续冒泡了
+	var flag bool
 
 	for i := length; i >= 1; i-- {
+		flag = false
 		for j := 0; j < i-1; j++ {
 			if data[j] > data[j+1] {
 				data[j], data[j+1] = data[j+1], data[j]
+				flag = true
 			}
+		}
+		if !flag {
+			break
 		}
 	}
 
@@ -42,6 +49,27 @@ func InsertSort(data []int) []int {
 				data[j-1], data[j] = data[j], data[j-1]
 			}
 		}
+	}
+
+	return data
+}
+
+// SelectSort 选择排序.
+// 原理：每一步从一个待排序序列选择一个最小的数据插入到已经排好序的有序序列中，直到所有元素插入完毕.
+// 和插入排序类似
+func SelectSort(data []int) []int {
+	length := len(data)
+	// 未排序最小元素下标
+	var min int
+	for i := 0; i < length-1; i++ {
+		min = i
+		// 从未排序列表中选择最小元素
+		for j := i + 1; j < length; j++ {
+			if data[j] < data[min] {
+				min = j
+			}
+		}
+		data[i], data[min] = data[min], data[i]
 	}
 
 	return data
