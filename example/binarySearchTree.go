@@ -37,7 +37,16 @@ func main() {
 	bst.PreOrderTraversalRecursion()
 	fmt.Println()
 
-	bst.MakeEmpty()
-	fmt.Println(bst.FindMin())
-	fmt.Println(bst.FindMax())
+	// 待删除节点为叶子节点
+	//bst.Delete(4)
+	//bst.PreOrderTraversalRecursion()
+	//fmt.Println()
+	// 待删除节点3, 3节点拥有且只有一个节点
+	//bst.Delete(3)
+	//bst.PreOrderTraversalRecursion()
+	//fmt.Println()
+	// 待删除节点2, 2节点拥有两个节点
+	bst.Delete(2)
+	bst.PreOrderTraversalRecursion()
+	fmt.Println()
 }

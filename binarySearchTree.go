@@ -1,6 +1,8 @@
 package dataStructureAlgorithm
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // BinarySearchTree 二叉查找树, 主要应用于查找方面.
 // 特点：对于任意一个节点X，它的左子树中的 "所有的值" 小于X的值，它的右子树中的 "所有的值" 大于X的值,
@@ -175,6 +177,71 @@ func (b *BinarySearchTree) PostOrderTraversalRecursion() {
 		b.right.PostOrderTraversalRecursion()
 	}
 	fmt.Printf("%v ", b.Value)
+}
+
+// Delete 删除节点, 根据要删除节点子节点的个数分三种情况：
+// 1.要删除的节点是叶子节点，直接设置删除节点的父节点指向删除节点的指针为nil
+// 2.要删除的节点只有一个节点，设置删除节点的父节点指向删除节点的指针指向"要删除节点的子节点"
+// 3.要删除的节点有两个节点，从删除节点的右子树查询最小节点值替换到要删除节点的值，同时删除最小节点
+func (b *BinarySearchTree) Delete(data int) {
+	// 删除节点的父节点
+	pp := b
+	// 待删除的节点
+	p := b
+
+	for p.Value != 0 && p.Value != data {
+		pp = p
+		if data > p.Value {
+			p = p.right
+		} else {
+			p = p.left
+		}
+	}
+	// 没有找到要删除的节点
+	if p == nil {
+		return
+	}
+
+	// 第一种情况, 判断要删除节点是位于左节点还是右节点
+	if p.left == nil && p.right == nil {
+		if pp.left == p {
+			pp.left = nil
+		} else {
+			pp.right = nil
+		}
+	}
+
+	// 第二种情况，只有一个节点
+	if (p.left == nil && p.right != nil) || (p.left != nil && p.right == nil) {
+		if pp.left == p {
+			pp.left = p.left
+		} else {
+			pp.right = p.right
+		}
+	}
+
+	// 第三种情况, 删除节点有两个子节点
+	if p.left != nil && p.right != nil {
+		// minP的父节点
+		minPP := p
+		// 查找子右节点的最小节点
+		minP := p.right
+		for minP.left != nil {
+			minPP = minP
+			minP = minP.left
+		}
+		// 把右子树中最小节点值替换到要删除节点的值
+		p.Value = minP.Value
+
+		// 删除minP节点
+		// 如果最小节点是左叶子节点, 直接删除最小节点
+		if minPP.left == minP {
+			minPP.left = nil
+			// 最小节点不是左叶子节点, 说明当前minP只包含右子树
+		} else {
+			minPP.right = minP.right
+		}
+	}
 }
 
 func NewBinarySearchTree() *BinarySearchTree {
