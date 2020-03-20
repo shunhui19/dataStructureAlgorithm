@@ -130,3 +130,39 @@ func QuickSort(data []int) []int {
 	result = append(left, base)
 	return append(result, right...)
 }
+
+// HeapSort 堆排序.
+// 堆也是可以理解为特殊的二叉查找树, 存储结构采用数组, 可以非常的节省空间的，
+// 不需要左右指针，单纯的通过数组下标就可以找到一个节点的左右子节点和父节点.
+// 原理，先构造大顶堆或小顶堆，然后再堆排序.
+// 构造堆有两种方式：
+// 1.从下往上构造堆
+// 2.从上往下构造堆
+// 就是顺着节点所在路径，向上或向下，对比，然后交换
+func HeapSort(data []int) []int {
+	length := len(data)
+	if length == 0 {
+		return data
+	}
+
+	for i := 0; i < length; i++ {
+		heapifyUp(data[i:])
+	}
+	return data
+}
+
+// heapify 从下往上把数组构成一个大堆
+// 节点i的左子树为2*i+1, 右子树为2*i+2
+func heapifyUp(data []int) {
+	length := len(data)
+	for i := length/2 - 1; i >= 0; i-- {
+		maxPos := i
+		if 2*i+1 <= length-1 && data[2*i+1] > data[i] {
+			maxPos = 2*i + 1
+		}
+		if 2*i+2 <= length-1 && data[maxPos] < data[2*i+2] {
+			maxPos = 2*i + 2
+		}
+		data[i], data[maxPos] = data[maxPos], data[i]
+	}
+}

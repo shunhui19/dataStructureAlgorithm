@@ -27,4 +27,9 @@ func main() {
 	fmt.Println(arr)
 	fmt.Printf("快速排序: %v\n", algorithm.QuickSort(arr))
 
+	// 堆排序
+	arr = []int{7, 5, 19, 8, 4, 1, 20, 13, 16}
+	fmt.Println(arr)
+	fmt.Printf("堆排序: %v\n", algorithm.HeapSort(arr))
+
 }
