@@ -166,3 +166,70 @@ func heapifyUp(data []int) {
 		data[i], data[maxPos] = data[maxPos], data[i]
 	}
 }
+
+// mergeSort 把原问题拆分为多个子问题
+func mergeSort(data []int, left, right int, tmpArr []int) {
+	if left < right {
+		mid := (left + right) / 2
+		mergeSort(data, left, mid, tmpArr)    // 左边序列排序
+		mergeSort(data, mid+1, right, tmpArr) // 右边序列排序
+		merge(data, left, mid, right, tmpArr) // 合并两个有序序列
+	}
+}
+
+// MergeSort 归并排序
+func MergeSort(data []int) []int {
+	tmpArr := make([]int, len(data))
+	mergeSort(data, 0, len(data)-1, tmpArr)
+	return data
+}
+
+// merge 合并子序列并按从小到大顺序放入临时数组tmpArr中.
+// left是左子序列的起始下标，mid为左序列的最后一个元素的下标，
+// mid+1为右子序列的起始下标，right为右子序列的最后一个元素下标
+// 如下所示
+// [1, 2, 8, 9]		[3, 5, 10, 15]
+// left      mid     mid+1     right
+func merge(data []int, left, mid, right int, tmpArr []int) []int {
+	lStart := left
+	rStart := mid + 1
+	t := 0
+
+	// 比较两个左右子序列元素大小，并按从小到大顺序写入tmpArr中
+	for lStart <= mid && rStart <= right {
+		if data[lStart] < data[rStart] {
+			tmpArr[t] = data[lStart]
+
+			lStart++
+			t++
+		} else {
+			tmpArr[t] = data[rStart]
+			rStart++
+			t++
+		}
+	}
+
+	// 将左子序列剩余元素拷贝到临时数组tmpArr中
+	for lStart <= mid {
+		tmpArr[t] = data[lStart]
+		lStart++
+		t++
+	}
+
+	// 将右子序列剩余元素拷贝到临时数组tmpArr中
+	for rStart <= right {
+		tmpArr[t] = data[rStart]
+		rStart++
+		t++
+	}
+
+	// 把有序的元素拷贝到原数组中去
+	t = 0
+	for left <= right {
+		data[left] = tmpArr[t]
+		left++
+		t++
+	}
+
+	return data
+}
